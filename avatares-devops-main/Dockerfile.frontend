@@ -1,0 +1,24 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files first
+COPY web/package*.json ./
+
+# Instalar dependencias
+RUN npm install
+
+# Copia todo el contenido
+COPY web/ .
+
+
+RUN npm run build
+
+
+RUN npm install -g serve
+
+# Exponer el puerto
+EXPOSE 5173
+
+
+CMD ["serve", "-s", "dist", "-l", "5173", "-l", "0.0.0.0"]
